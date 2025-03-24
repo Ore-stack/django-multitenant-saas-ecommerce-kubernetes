@@ -69,3 +69,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 .idea
+deployments/scripts/autoPull.sh
+deployments/scripts/autoPush.sh
