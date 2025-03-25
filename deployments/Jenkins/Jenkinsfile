@@ -11,7 +11,7 @@ pipeline{
         projectPath = ""
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        AWS_REGION = credentials('AWS_REGION')
+        AWS_REGION = 'us-east-1'
         EC2_INSTANCE = credentials('EC2_INSTANCE')
         AWS_SSH_KEY = credentials('AWS_SSH_KEY')
       }
