@@ -4,7 +4,7 @@ pipeline{
         buildDiscarder(logRotator(numToKeepStr: '3'))
       }
       environment {
-        DOCKERHUB_CREDENTIALS = credentials('globaldockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('glbaldockerhub')
         appName = "server"
         registry = ""
         registryCredential = ""
@@ -20,7 +20,7 @@ pipeline{
             stage('Environment'){
             steps {
                 sh 'python3 --version'
-                    git url: 'https://github.com/joelwembo/django-multitenant-saas-ecommerce-kubernetes.git' 
+                    git url: 'https://github.com/Ore-stack/django-multitenant-saas-ecommerce-kubernetes.git' 
                 }
         
             }
