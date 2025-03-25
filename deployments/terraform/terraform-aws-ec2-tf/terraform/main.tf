@@ -1,15 +1,17 @@
 # Terraform provision AWS EC2 instance with Terraform Cloud Management
-
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16" # Use the correct CIDR for your VPC
+}
 variable "awsprops" {
   type = map(any)
   default = {
     region       = "us-east-1"
     vpc          = "vpc-0649b09d7dc0a92c3"
-    ami          = "ami-0cd59ecaf368e5ccf"
+    ami          = "ami-084568db4383264d4"
     itype        = "t2.micro"
-    subnet       = "subnet-063a85d9139280d8a"
+    subnet       = "subnet-0ef56be70575e12cc"
     publicip     = true
-    keyname      = "prodxsecure"
+    keyname      = "terraform-demo-lanche"
     secgroupname = "prodxcloud-aws-ec2-lab-1"
   }
 }
@@ -58,7 +60,7 @@ resource "aws_instance" "project-iac-2" {
   instance_type               = lookup(var.awsprops, "itype")
   subnet_id                   = lookup(var.awsprops, "subnet")
   associate_public_ip_address = lookup(var.awsprops, "publicip")
-  key_name                    = lookup(var.awsprops, "keyname")
+  key_name                    = "terraform-demo-lanche"
 
 
   vpc_security_group_ids = [
@@ -96,7 +98,7 @@ resource "aws_instance" "project-iac-2" {
     type        = "ssh"
     host        = self.public_ip
     user        = "ubuntu"
-    private_key = file("./prodxsecure.pem")
+    private_key = file("./terraform-demo-lanche.pem")
   }
 }
 

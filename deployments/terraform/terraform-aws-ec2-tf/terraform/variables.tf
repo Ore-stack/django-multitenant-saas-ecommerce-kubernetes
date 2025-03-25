@@ -44,12 +44,12 @@ variable "instance_ami" {
 
 variable "instance_vpc_id" {
   type    = string
-  default = "vpc-06e427b3d907fb984"
+  default = "vpc-0649b09d7dc0a92c3"
 }
 
 variable "instance_subnet_id" {
   type    = string
-  default = "subnet-063a85d9139280d8a"
+  default = "subnet-0ef56be70575e12cc"
 }
 
 variable "instance_keyName" {

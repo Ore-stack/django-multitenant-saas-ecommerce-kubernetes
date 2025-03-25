@@ -13,7 +13,7 @@ terraform {
     bucket         = "django-app-6"
     region         = "us-east-1"
     key            = "state/terraform.tfstate"
-    dynamodb_table = "use_lockfile = true"
+    dynamodb_table = "data_onents_tf_lockid"
     encrypt        = true
   }
 }
