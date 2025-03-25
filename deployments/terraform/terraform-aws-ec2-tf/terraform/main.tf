@@ -4,7 +4,7 @@ variable "awsprops" {
   type = map(any)
   default = {
     region       = "us-east-1"
-    vpc          = "vpc-06e427b3d907fb984"
+    vpc          = "vpc-0649b09d7dc0a92c3"
     ami          = "ami-0cd59ecaf368e5ccf"
     itype        = "t2.micro"
     subnet       = "subnet-063a85d9139280d8a"
