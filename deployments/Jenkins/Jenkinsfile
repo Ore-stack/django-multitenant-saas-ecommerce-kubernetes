@@ -35,7 +35,7 @@ pipeline{
                     script {
                         withSonarQubeEnv(credentialsId: 'sonar-scanner') {
                             sh """
-                                ${env.SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                                /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube_Scanner/bin/sonar-scanner \
                                 -Dsonar.projectKey=django-web-app \
                                 -Dsonar.projectName="django-web-app" \
                                 -Dsonar.sources=apps
