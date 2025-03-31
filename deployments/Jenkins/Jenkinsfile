@@ -50,7 +50,7 @@ pipeline{
                 steps  {
                     // sh 'docker-compose down'
                     // sh 'docker-compose build --no-cache'
-                    sh 'docker build -t joelwembo/prodxcloud-django-web:latest --no-cache .'
+                    sh 'docker build -t biglanche/prodxcloud-django-web:latest --no-cache .'
                     }
             }
             stage('Login') {
@@ -62,7 +62,7 @@ pipeline{
 
             stage('Trivy Scan') {
                 steps {
-                    sh 'trivy image joelwembo/prodxcloud-django-web:latest'
+                    sh 'trivy image biglanche/prodxcloud-django-web:latest'
                 }
             }
 
@@ -70,7 +70,7 @@ pipeline{
                 steps {
                     sh 'docker images'
                     sh 'docker images --filter "reference=prodxcloud-django-web*"' 
-                    sh 'docker push joelwembo/prodxcloud-django-web:latest'
+                    sh 'docker push biglanche/prodxcloud-django-web:latest'
                 }
             }
             stage('Run the Application'){
