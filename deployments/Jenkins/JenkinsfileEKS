@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your source code repository
-                git 'https://github.com/Ore-stack/django-multitenant-saas-ecommerce-kubernetes.git'
+                git branch: 'main', credentialsId: 'GITHUB_CREDENTIALS', url: 'https://github.com/Ore-stack/django-multitenant-saas-ecommerce-kubernetes.git'
             }
         }
         
