@@ -38,7 +38,7 @@ pipeline{
                                 /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube_Scanner/bin/sonar-scanner \
                                 -Dsonar.projectKey=django-web-app \
                                 -Dsonar.projectName="django-web-app" \
-                                -Dsonar.sources=apps
+                                -Dsonar.sources=apps \
                                 -Dsonar.host.url=http://35.175.122.69:9000 \
                                 -Dsonar.login=squ_7bb9c2de73452e2786b308371732e304940d6e98
                             """
