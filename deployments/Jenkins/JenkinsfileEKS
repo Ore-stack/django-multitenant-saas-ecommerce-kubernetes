@@ -47,7 +47,7 @@ pipeline {
         stage('Create EKS Cluster') {
             steps {
                 script {
-                    sh "eksctl create cluster - name mycluster - nodegroup-name ng-test - node-type t3.medium - nodes 2"
+                    sh "eksctl create cluster --name django-cluster-2 --nodegroup-name ng-test --node-type t3.medium --nodes 2"
                     
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
         stage('update-kubeconfig') {
             steps {
                 script {
-                    sh "aws eks --region us-east-1 update-kubeconfig --name mycluster"
+                    sh "aws eks --region us-east-1 update-kubeconfig --name django-cluster-2"
                     
                 }
             }
@@ -66,7 +66,7 @@ pipeline {
             steps {
                 script {
                     // Authenticate with AWS EKS
-                    sh "aws eks --region us-east-1 update-kubeconfig --name mycluster"
+                    sh "aws eks --region us-east-1 update-kubeconfig --name django-cluster-2"
                     
                     // Deploy to EKS // k8s deployments folder
                     sh "kubectl apply -f deployments/k8s/deployment.yaml --namespace=default"
