@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     // Push your Docker image to the registry
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'glbaldockerhub') {
                         def appImage = docker.image('biglanche/prodxcloud-django-web:latest')
                         appImage.push()
                     }
