@@ -8,7 +8,7 @@ pipeline {
         DOCKER_REGISTRY_URL = 'docker.io'
         EKS_CLUSTER_NAME = 'mycluster'
         EKS_NAMESPACE = 'default'
-        APP_NAME = 'joelwembo/prodxcloud-django-web'
+        APP_NAME = 'biglanche/prodxcloud-django-web'
         DOCKER_IMAGE_TAG = 'latest'
     }
     
@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your source code repository
-                git 'https://github.com/joelwembo/django-multitenant-saas-ecommerce-kubernetes.git'
+                git 'https://github.com/Ore-stack/django-multitenant-saas-ecommerce-kubernetes.git'
             }
         }
         
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     // Push your Docker image to the registry
-                    docker.withRegistry(DOCKER_REGISTRY_URL, 'globaldockerhub') {
+                    docker.withRegistry(DOCKER_REGISTRY_URL, 'glbaldockerhub') {
                         docker.image("${DOCKER_REGISTRY_URL}/${APP_NAME}:${DOCKER_IMAGE_TAG}").push()
                     }
                 }
