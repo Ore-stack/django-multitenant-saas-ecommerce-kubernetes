@@ -3,9 +3,9 @@
 # Variables
 KUBECONFIG="/root/.kube/config"
 NAMESPACE="prodxcloud-django-web"
-DOCKER_IMAGE="joelwembo/prodxcloud-django-web:latest"
+DOCKER_IMAGE="biglanche/prodxcloud-django-web:latest"
 DEPLOYMENT_NAME="prodxcloud-django-web"
-SERVICE_NAME="mycluster"
+SERVICE_NAME="django-cluster"
 PORT=8585
 
 # Set KUBECONFIG environment variable
