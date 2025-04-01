@@ -31,11 +31,11 @@ pipeline {
                     withSonarQubeEnv(credentialsId: 'sonar-scanner') {
                         sh """
                             /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQube_Scanner/bin/sonar-scanner \
-                            -Dsonar.projectKey=django-web-app \
-                            -Dsonar.projectName="django-web-app" \
+                            -Dsonar.projectKey=django-web-app-2 \
+                            -Dsonar.projectName="django-web-app-2" \
                             -Dsonar.sources=apps \
                             -Dsonar.host.url=http://35.175.122.69:9000 \
-                            -Dsonar.login=squ_7bb9c2de73452e2786b308371732e304940d6e98
+                            -Dsonar.login=sqp_b595afe211ff38368aaac2431fe3b52c67ffd399
                         """
                     }
                 }
