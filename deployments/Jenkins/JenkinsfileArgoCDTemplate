@@ -23,10 +23,10 @@ pipeline {
                     sh 'chmod +x /usr/local/bin/argocd'
 
                     // Login to Argo CD (replace placeholders with your Argo CD credentials)
-                    sh 'argocd login <ARGOCD_SERVER> --insecure --username=<USERNAME> --password=<PASSWORD>'
+                    sh 'argocd login 35.175.122.69:8383 --username admin --password Be8S0XpltHBICz57 --insecure'
                     
                     // Sync your application with Argo CD (replace placeholders with your application details)
-                    sh 'argocd app sync <APPLICATION_NAME> --namespace <NAMESPACE>'
+                    sh 'argocd app sync CLOUDAPP-DJANGO-WEB --namespace default'
                 }
             }
         }
