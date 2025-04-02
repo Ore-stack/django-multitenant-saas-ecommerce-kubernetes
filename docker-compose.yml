@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: joelwembo/prodxcloud-django-web:latest
+    image: biglanche/prodxcloud-django-web:latest
     container_name: prodxcloud-django-web
     env_file: .env
     restart: always
