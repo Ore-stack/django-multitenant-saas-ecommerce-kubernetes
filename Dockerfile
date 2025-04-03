@@ -20,7 +20,11 @@ COPY manage.py /app/
 # Create a new user and set the ownership and permissions
 RUN useradd -m appuser && \
     chown -R appuser:appuser /app && \
-    chmod -R 755 /app  # Grant read, write, and execute permissions
+    chmod -R 755 /app  # Ensure files are readable and writable by appuser
+
+# Make sure that all files in /app have appropriate ownership and permissions
+RUN find /app -type d -exec chmod 755 {} \;  # Ensure directories are accessible
+RUN find /app -type f -exec chmod 644 {} \;  # Ensure files are readable by the user
 
 # Only run chmod on /app/tests if it exists
 RUN if [ -d "/app/tests" ]; then chmod -R 755 /app/tests; fi
