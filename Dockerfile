@@ -17,23 +17,25 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 
-# Create and activate a virtual environment
+# Create a virtual environment
 RUN python3 -m venv /app/venv
 
-# Install pip and setuptools inside the virtual environment
-RUN /app/venv/bin/pip install --upgrade pip
-RUN /app/venv/bin/pip install --upgrade setuptools
+# Upgrade pip and setuptools inside the virtual environment
+RUN /app/venv/bin/pip install --upgrade pip setuptools
 
-# Install dependencies in the virtual environment
+# Install dependencies inside the virtual environment
 RUN /app/venv/bin/pip install -r requirements.txt
-
-# Copy the current directory contents into the container at /app
-COPY . /app/
 
 # Set PATH to use the virtual environment
 ENV PATH="/app/venv/bin:$PATH"
 
-# Expose ports
+# Copy the rest of the application code into the container
+COPY . /app/
+
+# Expose necessary ports
 EXPOSE 8585
 EXPOSE 8000
 EXPOSE 80
+
+# Define the default command to run the app (if needed)
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8585"]
