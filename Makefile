@@ -102,4 +102,5 @@ release:
 
 test:
 	@echo "Running tests..."
+        @pip install -r requirements.txt  # Ensure pytest is installed
 	@pytest tests/
