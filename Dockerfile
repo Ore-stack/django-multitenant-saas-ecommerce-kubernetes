@@ -14,7 +14,12 @@ COPY multitenantsaas /app/
 COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
+# Install necessary packages, including make
+RUN apt update && apt install -y make
 
+WORKDIR /app
+
+COPY . .
 RUN python3 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 RUN pip install --upgrade pip
