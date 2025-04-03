@@ -90,5 +90,5 @@ release:
 # Running tests
 test:
 	@echo "Running tests..."
-	@if [ ! -d "venv" ]; then python3 -m venv venv; fi
-	@bash -c "source venv/bin/activate && pip install -r requirements.txt && pytest tests/"
+	@if [ ! -d "/app/venv" ]; then python3 -m venv /app/venv; fi
+	@bash -c "source /app/venv/bin/activate && pip install -r requirements.txt && pytest tests/"
