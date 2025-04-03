@@ -4,7 +4,7 @@ endif
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
-DOCKER_USERNAME ?= joelwembo
+DOCKER_USERNAME ?= biglanche
 APPLICATION_NAME ?= prodxcloud-django-web
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
