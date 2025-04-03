@@ -107,5 +107,5 @@ release:
 	@ docker tag  ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
 	@ docker push ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
 test:
-    @echo "Running tests..."
-    @pytest tests/
+   @echo "Running tests..."
+   @pytest tests/
