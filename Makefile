@@ -17,7 +17,8 @@ help:
 	sed "s/^/ - /g"
 	@echo "Read the Makefile for further details"
 
-venv virtualenv:
+# Combine venv and virtualenv into one target
+venv:
 	@echo "Creating a new virtualenv..."
 	@rm -rf venv || true
 	@python3.11 -m venv venv
