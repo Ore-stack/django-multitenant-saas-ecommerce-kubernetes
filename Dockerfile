@@ -17,10 +17,10 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 
-# Create a new user, assign ownership of the /app directory, and set correct permissions
+# Create a new user and set the ownership and permissions
 RUN useradd -m appuser && \
     chown -R appuser:appuser /app && \
-    chmod -R 777 /app  # Grant write permissions
+    chmod -R 755 /app  # Grant read, write, and execute permissions
 
 # Only run chmod on /app/tests if it exists
 RUN if [ -d "/app/tests" ]; then chmod -R 755 /app/tests; fi
