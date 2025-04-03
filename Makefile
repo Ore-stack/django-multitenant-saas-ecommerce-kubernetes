@@ -17,7 +17,7 @@ help:
 	sed "s/^/ - /g"
 	@echo "Read the Makefile for further details"
 
-# Combine venv and virtualenv into one target
+# Combined venv creation
 venv:
 	@echo "Creating a new virtualenv..."
 	@rm -rf venv || true
@@ -25,11 +25,13 @@ venv:
 	@echo "Done, now you need to activate it. Run:"
 	@echo "source venv/bin/activate"
 
+# Activating virtual environment
 activate:
 	@echo "Activating this python3.11 virtual environment:"
 	@bash --rcfile "./venv/bin/activate"
 
-requirements pip:
+# Installing requirements
+requirements:
 	@if [ -z "${VIRTUAL_ENV}" ]; then \
 		echo "Not inside a virtualenv."; \
 		exit 1; \
@@ -48,6 +50,7 @@ requirementsdev:
 	@echo "Upgrading pip..."
 	@pip install -r "requirements_dev.txt"
 
+# Cleaning up temporary and cache files
 cleanfull:
 	@echo "Cleaning all temporary and cache files..."
 	@rm -rf **/.pytest_cache .tox dist build **/__pycache__ *.egg-info .coverage* **/*.pyc env venv local .aws-sam
@@ -58,27 +61,33 @@ clean:
 	@rm -rf **/.pytest_cache .tox dist build **/__pycache__ *.egg-info .coverage* **/*.pyc
 	@echo "Basic cleanup complete!"
 
+# Starting the engine (migrations and server)
 start-engine:
 	@python3.11 manage.py makemigrations
 	@python3.11 manage.py migrate
 	@python3.11 manage.py runserver 0.0.0.0:8585
 
+# Build the docker image
 build:
 	@docker build --tag ${DOCKER_USERNAME}/${APPLICATION_NAME} .
 
+# Push the docker image
 push:
 	@docker push ${DOCKER_USERNAME}/${APPLICATION_NAME}
 
+# Run the docker-compose setup
 docker-run:
 	@docker-compose down
 	@docker-compose build --no-cache
 	@docker-compose up
 
+# Release the docker image with git hash
 release:
 	@docker pull ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
 	@docker tag ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
 	@docker push ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
 
+# Running tests
 test:
 	@echo "Running tests..."
 	@if [ ! -d "venv" ]; then python3 -m venv venv; fi
