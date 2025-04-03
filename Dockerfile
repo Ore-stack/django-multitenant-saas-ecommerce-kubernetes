@@ -5,6 +5,12 @@ FROM python:3.11-slim-bullseye as build
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Add these lines before copying files
+RUN useradd -m appuser && \
+    mkdir -p /app && \
+    chown appuser:appuser /app
+
+USER appuser
 # Set the working directory in the container
 WORKDIR /app
 
