@@ -36,6 +36,9 @@ RUN /app/venv/bin/pip install --upgrade setuptools
 # Install dependencies in the virtual environment
 RUN /app/venv/bin/pip install -r requirements.txt
 
+# Set app user permissions for /app directory
+RUN chmod -R 777 /app
+
 # Copy the rest of the application code
 COPY . /app/
 
