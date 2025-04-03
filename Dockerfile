@@ -27,13 +27,16 @@ RUN /app/venv/bin/pip install --upgrade setuptools
 # Install dependencies in the virtual environment
 RUN /app/venv/bin/pip install -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the rest of the application code
 COPY . /app/
 
 # Set PATH to use the virtual environment
 ENV PATH="/app/venv/bin:$PATH"
 
-# Expose ports
+# Expose the required ports
 EXPOSE 8585
 EXPOSE 8000
 EXPOSE 80
+
+# Set the default command to run the application
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "wsgi:application"]
