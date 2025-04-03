@@ -8,7 +8,6 @@ DOCKER_USERNAME ?= biglanche
 APPLICATION_NAME ?= prodxcloud-django-web
 GIT_HASH ?= $(shell git log --format="%h" -n 1)
 
-
 help:
 	@ echo "Use one of the following targets:"
 	@ tail -n +8 Makefile |\
@@ -17,7 +16,6 @@ help:
 	tr " " "/" |\
 	sed "s/^/ - /g"
 	@ echo "Read the Makefile for further details"
-
 
 venv virtualenv:
 	@ echo "Creating a new virtualenv..."
@@ -29,7 +27,6 @@ venv virtualenv:
 activate:
 	@ echo "Activating this python3.11 Virtual venv Env:"
 	@ bash --rcfile "./venv/bin/activate"
-
 
 requirements pip:
 	@ if [ -z "${VIRTUAL_ENV}" ]; then \
@@ -44,7 +41,6 @@ requirements pip:
 	# @ pip install -e .
 	@ echo "All pip libraries installed You are ready to go ;-)"
 
-
 requirementsdev:
 	@ if [ -z "${VIRTUAL_ENV}" ]; then \
 		echo "Not inside a virtualenv."; \
@@ -54,7 +50,6 @@ requirementsdev:
 	# @ python3.11 -m pip install --upgrade pip
 	@ echo "Updating pip packages:"
 	@ pip install -r "requirements_dev.txt"
-
 
 cleanfull:
 	@ echo "Cleaning old files..."
@@ -89,23 +84,22 @@ start-engine:
 	@ python3.11 manage.py migrate
 	@ python3.11 manage.py runserver 0.0.0.0:8585
 
-
 build:
-
 	@ docker build --tag ${DOCKER_USERNAME}/${APPLICATION_NAME} .
 
 push:
 	@ docker push ${DOCKER_USERNAME}/${APPLICATION_NAME}
 
 docker-run:
-	@ docker-compose down 
+	@ docker-compose down
 	@ docker-compose build --no-cache
 	@ docker-compose up
 
 release:
 	@ docker pull ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH}
-	@ docker tag  ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
+	@ docker tag ${DOCKER_USERNAME}/${APPLICATION_NAME}:${GIT_HASH} ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
 	@ docker push ${DOCKER_USERNAME}/${APPLICATION_NAME}:latest
+
 test:
-   @echo "Running tests..."
-   @pytest tests/
+	@echo "Running tests..."
+	@pytest tests/
