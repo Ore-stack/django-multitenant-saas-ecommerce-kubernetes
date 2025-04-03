@@ -21,7 +21,7 @@ COPY manage.py /app/
 RUN useradd -m appuser && chown -R appuser:appuser /app
 
 # Set permissions for /app directory
-RUN chmod -R 755 /app
+RUN chown -R appuser:appuser /app && chmod -R 755 /app
 
 # Switch to the non-root user to run the application
 USER appuser
