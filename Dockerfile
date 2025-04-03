@@ -17,6 +17,9 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 
+# Set permissions for /app directory
+RUN chown -R 1000:1000 /app
+
 # Create and activate a virtual environment
 RUN python3 -m venv /app/venv
 
