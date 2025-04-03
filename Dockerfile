@@ -15,7 +15,7 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 # Install necessary packages, including make
-RUN apt update && apt install -y make
+RUN apt update && apt install -y make docker.io
 
 WORKDIR /app
 
