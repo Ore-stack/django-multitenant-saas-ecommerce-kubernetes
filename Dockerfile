@@ -18,10 +18,10 @@ COPY .env /app/
 COPY manage.py /app/
 
 # Create a new user and assign ownership of the /app directory
-RUN useradd -m appuser && chown -R appuser:appuser /app
+RUN useradd -m appuser
 
-# Set permissions for /app directory
-RUN chmod -R 755 /app
+# Set correct permissions for all copied files before switching to the appuser
+RUN chown -R appuser:appuser /app && chmod -R 755 /app
 
 # Switch to the non-root user to run the application
 USER appuser
@@ -35,12 +35,6 @@ RUN /app/venv/bin/pip install --upgrade setuptools
 
 # Install dependencies in the virtual environment
 RUN /app/venv/bin/pip install -r requirements.txt
-
-# Set app user permissions for /app directory
-RUN chmod -R 777 /app
-
-# Copy the rest of the application code
-COPY . /app/
 
 # Set PATH to use the virtual environment
 ENV PATH="/app/venv/bin:$PATH"
