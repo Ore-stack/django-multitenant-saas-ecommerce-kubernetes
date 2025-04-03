@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container at /app
+# Copy the requirements file and essential directories into the container
 COPY requirements.txt /app/
 COPY apps /app/
 COPY media /app/
@@ -21,7 +21,7 @@ COPY manage.py /app/
 RUN useradd -m appuser && chown -R appuser:appuser /app
 
 # Set permissions for /app directory
-RUN chown -R appuser:appuser /app && chmod -R 755 /app
+RUN chmod -R 755 /app
 
 # Switch to the non-root user to run the application
 USER appuser
