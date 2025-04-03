@@ -22,6 +22,9 @@ RUN useradd -m appuser && \
     chown -R appuser:appuser /app && \
     chmod -R 777 /app  # Grant write permissions
 
+# Ensure that specific directories like /app/tests have correct permissions
+RUN chmod -R 755 /app/tests
+
 # Switch to the non-root user to run the application
 USER appuser
 
