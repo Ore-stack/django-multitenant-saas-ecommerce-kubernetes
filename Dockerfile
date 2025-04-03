@@ -15,7 +15,9 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 
-
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install --upgrade pip
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 # Install any needed packages specified in requirements.txt
