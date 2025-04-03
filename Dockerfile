@@ -17,8 +17,14 @@ COPY tests /app/
 COPY .env /app/
 COPY manage.py /app/
 
+# Create a new user and assign ownership of the /app directory
+RUN useradd -m appuser && chown -R appuser:appuser /app
+
 # Set permissions for /app directory
-RUN chown -R 1000:1000 /app
+RUN chmod -R 755 /app
+
+# Switch to the non-root user to run the application
+USER appuser
 
 # Create and activate a virtual environment
 RUN python3 -m venv /app/venv
