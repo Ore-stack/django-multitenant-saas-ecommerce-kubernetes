@@ -20,6 +20,9 @@ help:
 # Virtual environment setup
 venv:
 	@echo "Creating a new virtualenv..."
+	@if ! command -v python3.11 >/dev/null 2>&1; then \
+		echo "Error: python3.11 not found! Install it first."; exit 1; \
+	fi
 	@rm -rf venv || true
 	@python3.11 -m venv venv
 	@echo "Done. Run 'make activate' to activate it."
@@ -31,7 +34,10 @@ activate:
 
 # Installing requirements
 requirements:
-	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
+	@if [ ! -d "venv" ]; then \
+		echo "Error: Virtual environment not found! Run 'make venv' first."; \
+		exit 1; \
+	fi
 	@echo "Upgrading pip..."
 	@venv/bin/python -m pip install --upgrade pip
 	@echo "Installing required packages..."
@@ -39,7 +45,10 @@ requirements:
 	@echo "All dependencies installed. You're ready to go!"
 
 requirementsdev:
-	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
+	@if [ ! -d "venv" ]; then \
+		echo "Error: Virtual environment not found! Run 'make venv' first."; \
+		exit 1; \
+	fi
 	@echo "Installing development dependencies..."
 	@venv/bin/pip install -r "requirements_dev.txt"
 
@@ -86,6 +95,10 @@ release:
 test:
 	@echo "Setting up virtual environment if not already present..."
 	@if [ ! -d "venv" ]; then make venv; fi
+	@if [ ! -x "venv/bin/pip" ]; then \
+		echo "Error: venv/bin/pip not found! Something went wrong with venv setup."; \
+		exit 1; \
+	fi
 	@echo "Activating virtual environment and installing requirements..."
 	@venv/bin/pip install -r requirements.txt
 	@echo "Running tests..."
@@ -93,6 +106,9 @@ test:
 
 # Running tests without setting up venv
 run-tests:
-	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
+	@if [ ! -d "venv" ]; then \
+		echo "Error: Virtual environment not found! Run 'make venv' first."; \
+		exit 1; \
+	fi
 	@echo "Running tests (assuming venv is already set up)..."
 	@venv/bin/pytest tests/
