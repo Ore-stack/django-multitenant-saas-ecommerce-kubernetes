@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.views import generic
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
@@ -56,13 +55,14 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # DRF API routes
+    
+    # API routes - Includes URLs from the apps
     path("api/v1/", include(router.urls)),
-    path('home', include(home_urls)),
-    path('api/v1/snippets/', include(snippets_urls)),
-    path('api/v1/finances/', include(finances_urls)),
-    path('api/v1/payments/', include(payment_urls)),
-    path('api/v1/products/', include(product_urls)),
+    path('home/', include(home_urls)),  # Include home app URLs
+    path('api/v1/snippets/', include(snippets_urls)),  # Include snippets app URLs
+    path('api/v1/finances/', include(finances_urls)),  # Include finances app URLs
+    path('api/v1/payments/', include(payment_urls)),  # Include payments app URLs
+    path('api/v1/products/', include(product_urls)),  # Include products app URLs
 
     # Stripe Checkout
     path(
@@ -72,7 +72,7 @@ urlpatterns = [
     ),
 
     # GraphQL endpoint
-    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
 
     # Debugging & API Documentation
     path("__debug__/", include("debug_toolbar.urls")),
