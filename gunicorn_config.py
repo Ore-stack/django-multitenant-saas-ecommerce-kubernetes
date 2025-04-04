@@ -10,4 +10,4 @@ threads = 4
 certfile = "/etc/letsencrypt/live/prodxcloud.io/fullchain.pem"
 keyfile = "/etc/letsencrypt/live/prodxcloud.io/privkey.pem"
 
-# docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot --email joelwembo@outlook.com --agree-tos --no-eff-email -d prodxcloud.io
+# docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot --email oreoluwaosinowo@yahoo.com --agree-tos --no-eff-email -d prodxcloud.io
