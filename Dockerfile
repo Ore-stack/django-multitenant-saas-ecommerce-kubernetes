@@ -1,45 +1,63 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim-bullseye AS build
-
+FROM python:3.11-slim-bullseye as build
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PATH="/app/venv/bin:$PATH"
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y curl gcc libpq-dev && rm -rf /var/lib/apt/lists/*
-
-# Create app user and app directory
-RUN useradd -m appuser && mkdir -p /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+# Set the working directory in the container
 WORKDIR /app
+# Copy the requirements file into the container at /app
+COPY requirements.txt /app/
+COPY apps /app/
+COPY media /app/
+COPY multitenantsaas /app/
+# COPY staticfiles /app/
+COPY tests /app/
+COPY .env /app/
+COPY manage.py /app/
 
-# Copy only requirement files first for caching
-COPY --chown=appuser:appuser requirements.txt /app/
 
-# Create virtual environment and install Python deps
-RUN python3 -m venv /app/venv && \
-    /app/venv/bin/pip install --no-cache-dir --upgrade pip setuptools && \
-    /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --upgrade setuptools
+# Install any needed packages specified in requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
+# Copy the current directory contents into the container at /app
+# COPY . /app/
 
-# Copy the rest of the codebase
-COPY --chown=appuser:appuser . /app/
+COPY . /app/
 
-# Set appropriate permissions
-RUN chown -R appuser:appuser /app && \
-    find /app -type d -exec chmod 750 {} \; && \
-    find /app -type f -exec chmod 640 {} \; && \
-    chmod +x /app/manage.py && \
-    chmod 750 /app/venv/bin/python
+# Run vulnerability scan on build image
+# FROM build AS vulnscan
+# COPY --from=aquasec/trivy:latest /usr/local/bin/trivy /usr/local/bin/trivy
+# RUN trivy rootfs --no-progress /
 
-# Switch to non-root user
-USER appuser
+EXPOSE 8585
+EXPOSE 8000
+EXPOSE 80
 
-# Expose necessary ports
-EXPOSE 8000 80 8585
+# ## New Solution
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+# FROM python:3.11.4-slim-bullseye AS BASE
 
-# Default command
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "wsgi:application"]
+# ENV PYTHONUNBUFFERED 1
+# ENV PYTHONDONTWRITEBYTECODE 1
+
+# WORKDIR /app
+
+# COPY ./requirements.txt ./
+
+# RUN apt-get update && \
+#     apt-get install -y \
+#       gcc \
+#       default-libmysqlclient-dev \
+#       pkg-config \
+#       curl && \
+#     pip install --no-cache-dir -r requirements.txt && \
+#     apt-get remove -y \
+#       gcc \
+#       pkg-config && \
+#     rm -rf /var/lib/apt/lists/*
+
+# COPY . .
+
+# EXPOSE 8000
