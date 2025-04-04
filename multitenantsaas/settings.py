@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'apps.payments',
     'apps.products',
     'multitenantsaas'
+    'multitenantsaasdata_browser',
     'data_browser',
     'template_timings_panel'
 ]
