@@ -27,7 +27,7 @@ venv:
 
 # Activating virtual environment
 activate:
-	@echo "Activating this python3.11 virtual environment:"
+	@echo "Activating the Python virtual environment..."
 	@bash --rcfile "./venv/bin/activate"
 
 # Installing requirements
@@ -47,7 +47,7 @@ requirementsdev:
 		echo "Not inside a virtualenv."; \
 		exit 1; \
 	fi
-	@echo "Upgrading pip..."
+	@echo "Installing development dependencies..."
 	@pip install -r "requirements_dev.txt"
 
 # Cleaning up temporary and cache files
@@ -89,6 +89,14 @@ release:
 
 # Running tests
 test:
+	@echo "Setting up virtual environment if not already present..."
+	@if [ ! -d "venv" ]; then python3.11 -m venv venv; fi
+	@echo "Activating virtual environment and installing requirements..."
+	@bash -c "source venv/bin/activate && pip install -r requirements.txt"
 	@echo "Running tests..."
-	@if [ ! -d "/app/venv" ]; then python3 -m venv /app/venv; fi
-	@bash -c "source /app/venv/bin/activate && pip install -r requirements.txt && pytest tests/"
+	@bash -c "source venv/bin/activate && pytest tests/"
+
+# Running tests without setting up venv
+run-tests:
+	@echo "Running tests (assuming venv is already set up)..."
+	@bash -c "source venv/bin/activate && pytest tests/"
