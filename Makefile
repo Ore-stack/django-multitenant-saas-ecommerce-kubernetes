@@ -93,16 +93,13 @@ release:
 
 # Running tests
 test:
-	@echo "Setting up virtual environment if not already present..."
-	@if [ ! -d "venv" ]; then make venv; fi
-	@if [ ! -x "venv/bin/pip" ]; then \
-		echo "Error: venv/bin/pip not found! Something went wrong with venv setup."; \
-		exit 1; \
-	fi
-	@echo "Activating virtual environment and installing requirements..."
-	@venv/bin/pip install -r requirements.txt
-	@echo "Running tests..."
-	@venv/bin/pytest tests/
+	test:
+    @echo "Setting up virtual environment if not already present..."
+    @if [ ! -d "venv" ]; then python3 -m venv venv && . venv/bin/activate && pip install --upgrade pip; fi
+    @echo "Activating virtual environment and installing requirements..."
+    @bash -c "source venv/bin/activate && pip install -r requirements.txt"
+    @echo "Running tests..."
+    @bash -c "source venv/bin/activate && pytest tests/"
 
 # Running tests without setting up venv
 run-tests:
