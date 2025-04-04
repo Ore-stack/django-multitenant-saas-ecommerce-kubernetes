@@ -17,55 +17,50 @@ help:
 	sed "s/^/ - /g"
 	@echo "Read the Makefile for further details"
 
-# Combined venv creation
+# Virtual environment setup
 venv:
 	@echo "Creating a new virtualenv..."
 	@rm -rf venv || true
 	@python3.11 -m venv venv
-	@echo "Done, now you need to activate it. Run:"
-	@echo "source venv/bin/activate"
+	@echo "Done. Run 'make activate' to activate it."
 
 # Activating virtual environment
 activate:
 	@echo "Activating the Python virtual environment..."
-	@bash --rcfile "./venv/bin/activate"
+	@source venv/bin/activate && exec bash
 
 # Installing requirements
 requirements:
-	@if [ -z "${VIRTUAL_ENV}" ]; then \
-		echo "Not inside a virtualenv."; \
-		exit 1; \
-	fi
+	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
 	@echo "Upgrading pip..."
-	@python3.11 -m pip install --upgrade pip
+	@venv/bin/python -m pip install --upgrade pip
 	@echo "Installing required packages..."
-	@pip install -r "requirements.txt"
+	@venv/bin/pip install -r "requirements.txt"
 	@echo "All dependencies installed. You're ready to go!"
 
 requirementsdev:
-	@if [ -z "${VIRTUAL_ENV}" ]; then \
-		echo "Not inside a virtualenv."; \
-		exit 1; \
-	fi
+	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
 	@echo "Installing development dependencies..."
-	@pip install -r "requirements_dev.txt"
+	@venv/bin/pip install -r "requirements_dev.txt"
 
 # Cleaning up temporary and cache files
 cleanfull:
 	@echo "Cleaning all temporary and cache files..."
-	@rm -rf **/.pytest_cache .tox dist build **/__pycache__ *.egg-info .coverage* **/*.pyc env venv local .aws-sam
+	@find . -name '__pycache__' -o -name '*.pyc' -o -name '.pytest_cache' -o -name '*.egg-info' | xargs rm -rf
+	@rm -rf .tox dist build .coverage* venv local .aws-sam
 	@echo "Cleanup complete!"
 
 clean:
 	@echo "Removing temporary and cache files..."
-	@rm -rf **/.pytest_cache .tox dist build **/__pycache__ *.egg-info .coverage* **/*.pyc
+	@find . -name '__pycache__' -o -name '*.pyc' -o -name '.pytest_cache' | xargs rm -rf
+	@rm -rf .tox dist build .coverage*
 	@echo "Basic cleanup complete!"
 
 # Starting the engine (migrations and server)
 start-engine:
-	@python3.11 manage.py makemigrations
-	@python3.11 manage.py migrate
-	@python3.11 manage.py runserver 0.0.0.0:8585
+	@venv/bin/python manage.py makemigrations
+	@venv/bin/python manage.py migrate
+	@venv/bin/python manage.py runserver 0.0.0.0:8585
 
 # Build the docker image
 build:
@@ -90,13 +85,14 @@ release:
 # Running tests
 test:
 	@echo "Setting up virtual environment if not already present..."
-	@if [ ! -d "venv" ]; then python3.11 -m venv venv; fi
+	@if [ ! -d "venv" ]; then make venv; fi
 	@echo "Activating virtual environment and installing requirements..."
-	@bash -c "source venv/bin/activate && pip install -r requirements.txt"
+	@venv/bin/pip install -r requirements.txt
 	@echo "Running tests..."
-	@bash -c "source venv/bin/activate && pytest tests/"
+	@venv/bin/pytest tests/
 
 # Running tests without setting up venv
 run-tests:
+	@test -d "venv" || (echo "Virtual environment not found! Run 'make venv' first." && exit 1)
 	@echo "Running tests (assuming venv is already set up)..."
-	@bash -c "source venv/bin/activate && pytest tests/"
+	@venv/bin/pytest tests/
