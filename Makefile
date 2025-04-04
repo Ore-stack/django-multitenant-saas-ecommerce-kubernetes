@@ -92,7 +92,7 @@ start-engine:
 
 # Build docker image
 build:
-    @docker build --tag $(shell echo ${DOCKER_USERNAME}/${APPLICATION_NAME} | tr '[:upper:]' '[:lower:]') .
+	@docker build --tag $(shell echo ${DOCKER_USERNAME}/${APPLICATION_NAME} | tr '[:upper:]' '[:lower:]') .
 
 # Push docker image to registry
 push:
